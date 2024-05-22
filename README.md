@@ -1,2 +1,2 @@
 # remove_all_bilibili_blacklists
-批量清除陈睿的野爹
+一个批量清除陈睿野爹的油猴脚本
