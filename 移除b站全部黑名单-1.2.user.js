@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         移除b站全部黑名单
 // @namespace    http://tampermonkey.net/
-// @version      1.1
+// @version      1.2
 // @description  点击批量移除按钮以移除陈睿的野爹
 // @author       Soulize
 // @match        https://account.bilibili.com/account/blacklist
@@ -11,6 +11,8 @@
 (function() {
     'use strict';
 
+    let clickCount = 0;
+
     function clickRemoveButtonsSequentially(buttons, index) {
         if (index >= buttons.length) {
             // 所有移除按钮已被点击，点击下一页按钮
@@ -19,9 +21,19 @@
         }
 
         buttons[index].click();
-        setTimeout(function() {
-            clickRemoveButtonsSequentially(buttons, index + 1);
-        }, 200); // 200ms interval
+        clickCount++;
+
+        if (clickCount % 100 === 0) {
+            // 每点击100次，等待600秒
+            setTimeout(function() {
+                clickCount = 0; // 重置点击计数
+                clickRemoveButtonsSequentially(buttons, index + 1);
+            }, 600000); // 600秒 = 600,000毫秒
+        } else {
+            setTimeout(function() {
+                clickRemoveButtonsSequentially(buttons, index + 1);
+            }, 200); // 200ms interval
+        }
     }
 
     function startClicking() {
@@ -47,7 +59,7 @@
         if (nextPageButton) {
             nextPageButton.click();
             // 等待页面加载后重新查找移除按钮
-            setTimeout(startClicking, 500); // 等待0.5秒以确保页面完全加载
+            setTimeout(startClicking, 200); // 等待0.2秒以确保页面完全加载
         }
     }
 
