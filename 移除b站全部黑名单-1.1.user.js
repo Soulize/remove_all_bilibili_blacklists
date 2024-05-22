@@ -21,7 +21,7 @@
         buttons[index].click();
         setTimeout(function() {
             clickRemoveButtonsSequentially(buttons, index + 1);
-        }, 50); // 50ms interval
+        }, 200); // 200ms interval
     }
 
     function startClicking() {
@@ -47,7 +47,7 @@
         if (nextPageButton) {
             nextPageButton.click();
             // 等待页面加载后重新查找移除按钮
-            setTimeout(startClicking, 100); // 等待0.1秒以确保页面完全加载
+            setTimeout(startClicking, 500); // 等待0.5秒以确保页面完全加载
         }
     }
 
